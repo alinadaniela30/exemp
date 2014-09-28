@@ -43,6 +43,58 @@
 		
 	 </script>
 	 
+<script>
+//gasire informatii din tabel si afisare in div ascuns
+	function afiseaza() {
+			var dataObj={};
+			dataObj.Nume=$("#Nume").val();
+			dataObj.Prenume=$("#Prenume").val();
+			dataObj.Strada=$("#Strada").val();
+
+            $.ajax({
+                type: "POST",
+                url: "http://lambert.go.ro/exemplu/afiseazacomenzi.php",
+                data: {dataObj: JSON.stringify(dataObj)},
+                dataType: 'json',
+				success: function(respObj) {
+					if(respObj.status == "OK"){
+						// display info in form
+						var ownerInfo = {};
+						ownerInfo.Nume = respObj.Nume;
+						ownerInfo.Prenume = respObj.Prenume;
+						ownerInfo.Strada = respObj.Strada;
+						sessionStorage.setItem("OwnerInfo",JSON.stringify(ownerInfo));
+					
+
+						
+						location.href = "ex.html";
+						
+					} 
+					else {
+						alert(respObj.statusMsg);
+					}
+				},     
+				error: function(errorObj,errorStatus,errorMsg){
+					alert("Error connectiong to server: " + errorStatus + errorMsg);
+					
+				}
+			});	
+
+		}
+		
+	
+</script>
+<script>
+	$(document).ready(function() {
+			
+			var OwnerInfo = JSON.parse(sessionStorage.OwnerInfo); 
+		document.getElementById("rezultate1").innerHTML=OwnerInfo.Nume+" "+OwnerInfo.Prenume+" "+OwnerInfo.Strada;
+	//	document.getElementById("rezultate2").innerHTML=OwnerInfo.Prenume;
+	//document.getElementById("rezultate3").innerHTML=OwnerInfo.Strada;
+			
+		
+	});
+</script>
 	 
 	 
 	 
@@ -69,30 +121,34 @@
 		<input type="button" value="trimite" onclick="trimiteinfo()">
 	</div>	
 	</form>
-	<a href="#afisare_comenzi" class="ui-btn ui-btn-inline ui-corner-all">Afisare comenzi</a>
+	<a href="#"  onclick="afiseaza()" class="ui-btn ui-btn-inline ui-corner-all">Afisare comenzi</a>
+	<div id="rezultate1"> </div>
+	<div id="rezultate2"> </div>
+	<div id="rezultate3"> </div>
 	</div>
 	
 	<div data-role="footer">
 		2014
 	</div>
 </div>
-<!-- pagina 2 -->
 
-<div data-role="page" id="afisare_comenzi">
+<div data-role="page" id="afiseaza">
 	<div data-role="header">
-	 afisare comenzi
+	comenzi
 	</div>
-	<div data-role="main">
-	<p>Afisare din comenzile efectuate</p>
-	<form method="get" action="rezex.php">
-		<input type="submit" value="Afiseaza comenzi">
-	<form>
+	<div data-role="main" class="ui-contain">
+	
+			
 	</div>
 	
 	<div data-role="footer">
 		2014
 	</div>
-	
 </div>
+
 </body>
+<script>
+
+</script>
+
 </html>
