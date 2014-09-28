@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	
+	
+	<meta name="viewport" content="width-device-width, initial-scale=1">
+	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	 
+	 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+	 <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+
+
+	 <script>
+		function trimiteinfo() {
+			var dataObj={};
+			dataObj.Nume=$("#Nume").val();
+			dataObj.Prenume=$("#Prenume").val();
+			dataObj.Strada=$("#Strada").val();
+		
+		
+	
+		
+		//request de update al ownerului 
+		$.ajax({
+			type: "POST",
+			url: "http://lambert.go.ro/exemplu/ex.php",
+			data: {dataObj: JSON.stringify(dataObj)},
+			dataType: 'json',
+			success: function(respObj) {
+				alert(respObj.statusMsg);
+			},     
+			error: function(errorObj,errorStatus,errorMsg){
+				alert("Error connectiong to server: " + errorStatus + errorMsg);
+				
+			}
+		});	
+			
+	}
+		
+		
+		
+		
+	 </script>
+	 
+	 
+	 
+	 
+	 
+	 
+</head>
+<body>
+<div data-role="page" id="pagina_comanda">
+	<div data-role="header">
+	comenzi
+	</div>
+	<div data-role="main" class="ui-contain">
+	<form method="POST" action="#">
+	<div class="ui-field-contain">
+		<label for="Nume">Nume</label>
+		<input type="text" name="Nume" id="Nume">
+		
+		<label for="Prenume">Prenume</label>
+		<input type="text" name="Prenume" id="Prenume">
+		
+		<label for="Strada">Strada</label>
+		<input type="text" name="Strada" id="Strada">
+		
+		<input type="button" value="trimite" onclick="trimiteinfo()">
+	</div>	
+	</form>
+	<a href="#afisare_comenzi" class="ui-btn ui-btn-inline ui-corner-all">Afisare comenzi</a>
+	</div>
+	
+	<div data-role="footer">
+		2014
+	</div>
+</div>
+<!-- pagina 2 -->
+
+<div data-role="page" id="afisare_comenzi">
+	<div data-role="header">
+	 afisare comenzi
+	</div>
+	<div data-role="main">
+	<p>Afisare din comenzile efectuate</p>
+	<form method="get" action="rezex.php">
+		<input type="submit" value="Afiseaza comenzi">
+	<form>
+	</div>
+	
+	<div data-role="footer">
+		2014
+	</div>
+	
+</div>
+</body>
+</html>
